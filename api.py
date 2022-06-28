@@ -1,7 +1,7 @@
 from http.client import UNAUTHORIZED
 from flask import Flask, flash, request, redirect, url_for, render_template,jsonify, session
 from numpy import reshape
-from helper import remove_token, add_token, is_token_found
+from helper import remove_token, add_token, is_token_found, resizing_vector
 import os
 from werkzeug.utils import secure_filename
 from Code import perdict_img
