@@ -1,7 +1,7 @@
 from http.client import UNAUTHORIZED
 from flask import Flask, flash, request, redirect, url_for, render_template,jsonify, session
 from numpy import reshape
-from helper import remove_token, add_token, is_token_found
+from helper import remove_token, add_token, is_token_found, resizing_vector
 import os
 from werkzeug.utils import secure_filename
 from Code import perdict_img
@@ -105,17 +105,7 @@ def upload_image():
         return jsonify({"response": "Image file is required"}), 404 # not found
     else:
         try:
-            data = list(data.values()) # to store values only of the input json string
-
-            
-            data_inverse = [255 - x for x in data] # inverse 0 --> 1
-
-            size= int(math.sqrt(len(data_inverse)))
-            data_inverse =data_inverse[:size*size]
-            data_inverse = np.array(data_inverse)  
-            data = np.reshape(data_inverse,(size, size)) # rehaping the input data form 1D to 2D list 
-            
-
+            data = resizing_vector(data)            
             scores = perdict_img(data_inverse)
             
             return jsonify(scores)
