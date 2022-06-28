@@ -123,12 +123,6 @@ def upload_image():
             return jsonify({"response": "Image file is required"}), 400 # Bad Request
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     app.run()     
 
