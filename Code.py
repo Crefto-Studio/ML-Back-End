@@ -33,8 +33,10 @@ def perdict_img(file):
     # img = Image.open(Image_Data_Path+"dataset/1540.png")
     # img = Image.open(file)
 
-    img = np.random.random((224,224))  #Here add your json array
-    img = Image.fromarray(img, mode='L')
+    # img = np.random.random((224,224))  #Here add your json array
+    img = file
+    np_array = np.array(img)
+    img = Image.fromarray(np_array, mode='L')
     
     # Extract its features
     query = fe.extract(img)
