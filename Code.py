@@ -5,8 +5,18 @@ from keras.models import Model
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import boto3
 
-Image_Data_Path = "F:\Web_Programming_course\grad_project\AutoDraw/"
+
+S3_BUCKET = 'autodraw' 
+folder = 'features/'
+file_name = "features.csv"
+
+s3 = boto3.client('s3',
+         aws_access_key_id='AKIAYHBCWEYTNPL6AYV4',
+         aws_secret_access_key= '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')
+
+obj = s3.get_object(Bucket= S3_BUCKET, Key= folder+ file_name)
 
 class FeatureExtractor:
     def __init__(self):
@@ -39,7 +49,7 @@ def perdict_img(file):
     # Extract its features
     query = fe.extract(img)
 
-    features = pd.read_csv(Image_Data_Path+"feature_extraction.csv")
+    features = pd.read_csv(obj['Body'])
 
     # Calculate the similarity (distance) between images
     features_data = features.drop(columns = ['image'])
