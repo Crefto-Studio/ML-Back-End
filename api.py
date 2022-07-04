@@ -82,6 +82,10 @@ def clear_session(token):
     session.pop(token, None)
 
 
+# @app.route('clear_auth', methods=['GET'])
+# def clear_auth():
+#     session.pop("secret_key", None)
+
 @app.route('/', methods=['POST'])
 def upload_image():
 
@@ -106,7 +110,7 @@ def upload_image():
     else:
         try:
             data = resizing_vector(data)            
-            scores = perdict_img(data_inverse)
+            scores = perdict_img(data)
             
             return jsonify(scores)
         except:

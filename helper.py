@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 def remove_token(token):
     # list to store file lines
     lines = []

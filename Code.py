@@ -10,7 +10,7 @@ import boto3
 
 S3_BUCKET = 'autodraw' 
 folder = 'features/'
-file_name = "features.csv"
+file_name = "feature_extraction_6.csv"
 
 s3 = boto3.client('s3',
          aws_access_key_id='AKIAYHBCWEYTNPL6AYV4',
@@ -48,22 +48,29 @@ def perdict_img(file):
     
     # Extract its features
     query = fe.extract(img)
-
+  
     features = pd.read_csv(obj['Body'])
 
     # Calculate the similarity (distance) between images
     features_data = features.drop(columns = ['image'])
+
     features_data = features_data.values
+
     dists = np.linalg.norm(features_data - query, axis=1)
 
     # Extract 30 images that have lowest distance
     ids = np.argsort(dists)[:10]
+  
     lookalike_imgs = features.iloc[ids,:]['image']
+
     scores = pd.DataFrame({'image': lookalike_imgs,
                         'score': dists[ids]})
 
+
     scores = scores.reset_index(drop=True) 
+
     scores = scores.to_json(orient='index')
+
 
     # scores is a dataframe object contrain 2 columns image name and its score
     # scores contains the 10 least score images according to input image
