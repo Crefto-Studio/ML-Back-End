@@ -44,7 +44,8 @@ class FeatureExtractor:
 def perdict_img(file):
     
     fe = FeatureExtractor()
-    img = Image.fromarray(np.array(file), mode='L')
+    np_array = np.array(file)     
+    img = Image.fromarray(np_array, mode='L')
     
     # Extract its features
     query = fe.extract(img)
