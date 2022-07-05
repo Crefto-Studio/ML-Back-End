@@ -88,10 +88,12 @@ def clear_session(token):
 
 @app.route('/', methods=['POST'])
 def upload_image():
-
+    input_data = request.get_json(force=True) 
 
     #The following line is used to get data as parameters in URL
-    token = request.args.get('token')
+    # token = request.args.get('token')
+    token = input_data["token"]
+    json_data =input_data["data"]
     if token:
 
         if is_token_found(token):
@@ -104,13 +106,13 @@ def upload_image():
         return jsonify({"response": "Token is required or session is expired"}), 401 # UNAUTHORIZED
     
     
-    data = request.get_json(force=True) 
-    if not data:
+    # data = request.get_json(force=True) 
+    if not json_data:
         return jsonify({"response": "Image file is required"}), 404 # not found
     else:
         try:
-            data = resizing_vector(data)            
-            scores = perdict_img(data)
+            json_data = resizing_vector(json_data)            
+            scores = perdict_img(json_data)
             
             return jsonify(scores)
         except:
