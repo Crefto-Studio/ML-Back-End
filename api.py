@@ -1,15 +1,6 @@
-from http.client import UNAUTHORIZED
-from flask import Flask, flash, request, redirect, url_for, render_template,jsonify, session
-from numpy import reshape
+from flask import Flask, request,jsonify, session
 from helper import remove_token, add_token, is_token_found, resizing_vector
-import os
-from werkzeug.utils import secure_filename
 from Code import perdict_img
-import math
-import numpy as np
-
-################## API ################
-#app.py
 
 app = Flask(__name__)
 
@@ -53,8 +44,6 @@ def insert_token():
     else:
         return jsonify({"response": "UNAUTHORIZED"}), 401 # UNAUTHORIZED   
 
-
-
 @app.route('/delete_token', methods=['Delete'])
 def delete_token():
     # The following line to take data in form of json
@@ -75,23 +64,14 @@ def delete_token():
     else:
         return jsonify({"response": "UNAUTHORIZED"}), 401 # UNAUTHORIZED   
 
-
-
-
 def clear_session(token):
     session.pop(token, None)
 
-
-# @app.route('clear_auth', methods=['GET'])
-# def clear_auth():
-#     session.pop("secret_key", None)
 
 @app.route('/', methods=['POST'])
 def upload_image():
     input_data = request.get_json(force=True) 
 
-    #The following line is used to get data as parameters in URL
-    # token = request.args.get('token')
     token = input_data["token"]
     json_data =input_data["data"]
     if token:
@@ -105,7 +85,6 @@ def upload_image():
     else:     
         return jsonify({"response": "Token is required or session is expired"}), 401 # UNAUTHORIZED
     
-    
     # data = request.get_json(force=True) 
     if not json_data:
         return jsonify({"response": "Image file is required"}), 404 # not found
@@ -118,16 +97,5 @@ def upload_image():
         except:
             return jsonify({"response": "Image file is required"}), 400 # Bad Request
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
-    # TO DO       
-# 1)create session with backend, with  a sercret key as an environment variable.
-# 2)linking user session with token so when token is deleted the session related to this token is also cleared.
-# 3)
-
-############################# API END ###########################
-
-# command for running flask app:
-# api.py 
